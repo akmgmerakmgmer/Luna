@@ -1,18 +1,30 @@
 <template>
-  <div>
-    <div id="loading" class="zindex">
+  <div :class="overflow">
+    <div id="loading" :class="loading">
       <img src="~/assets/images/vectorpaint.svg" alt="Loading" />
     </div>
     <a href="#" id="top"><i class="fa fa-arrow-up fa-2x" aria-hidden="true"></i></a>
+    <slot></slot>
   </div>
 </template>
 
 <style lang="sass" scoped>
 @import "~/assets/style.sass"
+.loading-fixed
+  overflow: hidden !important
+  max-height: 100vh
+.d-none
+  display: none
+.opacity
+  opacity: 1
+.no-opacity
+  opacity: 0
+.no-zindex
+  z-index: -1
 .zindex
   z-index: 999999999999999
 #loading
-  width: 100%
+  width: 100vw
   height: 100vh
   position: fixed
   background-color: #222222
@@ -21,8 +33,7 @@
   display: flex
   justify-content: center
   align-items: center
-  opacity: 1
-  @include transition(all, 0.3s, ease-in-out)
+  @include transition(all, 0.2s, ease-in-out)
   img
     width: 160px
     height: 150px
@@ -46,6 +57,12 @@
 
 <script>
 export default {
+  data(){
+    return{
+      loading:'opacity zindex',
+      overflow:'loading-fixed'
+    }
+  },
   methods:{
     arrow () {
       if(window.scrollY>100){
@@ -58,12 +75,10 @@ export default {
   },
   mounted(){
     window.addEventListener("scroll", this.arrow)
-   setTimeout(() => {
-        document.getElementById('loading').style.opacity=0
-      },3000)
       setTimeout(() => {
-        document.getElementById('loading').classList.remove('zindex')
-      },3500)
+        this.loading="no-opacity no-zindex"
+        this.overflow=""
+      },4000)
   },
   beforeDestroy() {
     window.removeEventListener("scroll", this.arrow)

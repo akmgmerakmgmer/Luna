@@ -1,8 +1,9 @@
 <template>
   <v-app dark class="background-main">
     <v-main>
-      <loading-1></loading-1>
-      <nuxt />
+      <loading-1>
+        <nuxt />
+      </loading-1>
     </v-main>
   </v-app>
 </template>
